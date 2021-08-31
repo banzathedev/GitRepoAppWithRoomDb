@@ -16,6 +16,7 @@ import com.proway.gitrepoapp.R
 import com.proway.gitrepoapp.ViewModel.ListViewModel
 import com.proway.gitrepoapp.adapter.AdapterRepositorios
 import com.proway.gitrepoapp.databinding.ListFragmentBinding
+import com.proway.gitrepoapp.model.GithubModel
 import com.proway.gitrepoapp.model.ItemRepoList
 import com.proway.gitrepoapp.model.LanguagesResponse
 import com.proway.gitrepoapp.model.RepositoriesResponse
@@ -56,6 +57,17 @@ class ListFragment : Fragment(R.layout.list_fragment) {
         } else {
             Snackbar.make(requireView(), "Ocorreu um erro na pesquisa", Snackbar.LENGTH_LONG).show()
         }
+    }
+    private val observePage = Observer<Int> { page ->
+        viewModel.fetchRepositories(LANGUAGE, page)
+    }
+
+    private val observeRepositories = Observer<List<GithubModel>> { list ->
+        /**
+         * Escondemos o label de Loading quando a lista foi carregada.
+         */
+        adapter.refresh(list)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

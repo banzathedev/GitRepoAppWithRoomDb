@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.proway.gitrepoapp.R
 import com.proway.gitrepoapp.databinding.ItemListBinding
+import com.proway.gitrepoapp.model.GithubModel
 import com.proway.gitrepoapp.model.RepositoriesResponse
 import com.proway.gitrepoapp.singletons.SingletonRepoResponse
 
-class AdapterRepositorios(val OnItemClick: (RepositoriesResponse) -> Unit) :
+class AdapterRepositorios(val OnItemClick: (GithubModel) -> Unit) :
     RecyclerView.Adapter<RepositoriesViewHolder>() {
-    private var listOfRepos = mutableListOf<RepositoriesResponse>()
+    private var listOfRepos = mutableListOf<GithubModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoriesViewHolder {
         LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false).apply {
@@ -27,7 +28,7 @@ class AdapterRepositorios(val OnItemClick: (RepositoriesResponse) -> Unit) :
         }
     }
 
-    fun refresh(mLista: List<RepositoriesResponse>) {
+    fun refresh(mLista: List<GithubModel>) {
         listOfRepos.clear()
         listOfRepos.addAll(mLista)
         notifyDataSetChanged()
@@ -40,15 +41,15 @@ class AdapterRepositorios(val OnItemClick: (RepositoriesResponse) -> Unit) :
 class RepositoriesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private var binding = ItemListBinding.bind(itemView)
 
-    fun bind(repositories: RepositoriesResponse) {
-        binding.textViewRepositoryName.text = " Repo Name: ${repositories.repoName}"
-        binding.textViewRepositoryDescription.text = "Repo Desc: ${repositories.repoDescripition}"
-        binding.textViewAuthorName.text = "Author: ${repositories.ownerInfo.login}"
-        binding.textViewForks.text = "${repositories.forksCount}K"
-        binding.textViewStars.text = "${repositories.starsCount}K"
+    fun bind(repositories: GithubModel) {
+        binding.textViewRepositoryName.text = " Repo Name: ${repositories.name}"
+        binding.textViewRepositoryDescription.text = "Repo Desc: ${repositories.description}"
+        binding.textViewAuthorName.text = "Author: ${repositories.owner.username}"
+        binding.textViewForks.text = "${repositories.forks}K"
+        binding.textViewStars.text = "${repositories.stars}K"
         binding.imageViewAuthor.apply {
             Glide.with(this)
-                .load(repositories.ownerInfo.avatarUrl)
+                .load(repositories.owner.avatar)
                 .placeholder(R.drawable.github_logo_white)
                 .into(this)
         }

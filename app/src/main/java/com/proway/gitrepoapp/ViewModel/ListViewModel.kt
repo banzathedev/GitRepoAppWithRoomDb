@@ -3,6 +3,7 @@ package com.proway.gitrepoapp.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.proway.gitrepoapp.model.GithubModel
 import com.proway.gitrepoapp.repository.GithubRepository
 import com.proway.gitrepoapp.repository.ReposRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,4 +34,36 @@ class ListViewModel @Inject constructor(
             _refresh.value = it
         }
     }
+
+    private val _repositories = MutableLiveData<List<GithubModel>>()
+    val repositories: LiveData<List<GithubModel>> = _repositories
+
+    /**
+     * Criado esta variavel para armazenar a paginação que o user esta atuando.
+     */
+    private val _page = MutableLiveData(0)
+    val page: LiveData<Int> = _page
+
+    /**
+     * Sempre será chamado passando a página, caso não passe nenhuma irá passar por default 1
+     */
+    fun fetchRepositories(language: String, page: Int = 1) {
+        repository.fetchRepositories(language = language, page = page) { response, _ ->
+            response?.let { resp ->
+                _repositories.value = resp.items
+            }
+        }
+    }
+
+    /**
+     * Atualiza a página
+     */
+    fun nextPage() {
+        _page.value = _page.value!! + 1
+    }
+
+
 }
+
+
+
