@@ -16,25 +16,6 @@ class ListViewModel @Inject constructor(
 ) : ViewModel() {
     private val repo = ReposRepository()
 
-    private val _changes = MutableLiveData<Boolean>()
-    var changes: LiveData<Boolean> = _changes
-
-    private val _refresh = MutableLiveData<Boolean>()
-    var refresh: LiveData<Boolean> = _refresh
-
-    fun callGetRepoPrs(user: String, repoName: String) {
-        repo.getPrsOfARepo(user, repoName) {
-            _changes.value = it
-        }
-    }
-
-    fun callRepoByLangs(lang: String) {
-
-        repo.getReposBylang(lang) {
-            _refresh.value = it
-        }
-    }
-
     private val _repositories = MutableLiveData<List<GithubModel>>()
     val repositories: LiveData<List<GithubModel>> = _repositories
 
@@ -48,6 +29,7 @@ class ListViewModel @Inject constructor(
      * Sempre será chamado passando a página, caso não passe nenhuma irá passar por default 1
      */
     fun fetchRepositories(language: String, page: Int = 1) {
+        repo.getLangs()
         repository.fetchRepositories(language = language, page = page) { response, _ ->
             response?.let { resp ->
                 _repositories.value = resp.items

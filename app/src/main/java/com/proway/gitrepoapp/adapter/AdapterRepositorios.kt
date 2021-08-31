@@ -8,8 +8,7 @@ import com.bumptech.glide.Glide
 import com.proway.gitrepoapp.R
 import com.proway.gitrepoapp.databinding.ItemListBinding
 import com.proway.gitrepoapp.model.GithubModel
-import com.proway.gitrepoapp.model.RepositoriesResponse
-import com.proway.gitrepoapp.singletons.SingletonRepoResponse
+
 
 class AdapterRepositorios(val OnItemClick: (GithubModel) -> Unit) :
     RecyclerView.Adapter<RepositoriesViewHolder>() {

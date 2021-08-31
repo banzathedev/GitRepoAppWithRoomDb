@@ -2,10 +2,10 @@ package com.proway.gitrepoapp.repository
 
 
 import com.proway.gitrepoapp.BuildConfig
-import com.proway.gitrepoapp.model.ItemRepoList
+
 import com.proway.gitrepoapp.model.LanguagesResponse
 import com.proway.gitrepoapp.model.RepoPullRequestResponse
-import com.proway.gitrepoapp.model.RepositoriesResponse
+
 import com.proway.gitrepoapp.services.*
 import com.proway.gitrepoapp.singletons.SingletonLangs
 import com.proway.gitrepoapp.singletons.SingletonRepoPrs
@@ -15,37 +15,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ReposRepository {
-
-    fun getAllReposAndLangs(callback: (Boolean) -> Unit) {
-        getLangs()
-        RetrofitBuilder.getInstance(BuildConfig.GITHUB_API_URL).create(ServiceAllRepos::class.java)
-            .getRepos().clone().enqueue(object : Callback<ItemRepoList> {
-                override fun onResponse(
-                    call: Call<ItemRepoList>,
-                    response: Response<ItemRepoList>
-                ) {
-                    response.body().let { resp ->
-                        if (resp != null) {
-                            SingletonRepoResponse.resp = resp.repolist
-                            callback(true)
-
-                        } else {
-                            getAllReposAndLangs() {
-
-                            }
-                        }
-
-                    }
-                }
-
-                override fun onFailure(call: Call<ItemRepoList>, t: Throwable) {
-                    println(t.message)
-                }
-
-
-            })
-
-    }
 
     fun getLangs() {
         RetrofitBuilder.getInstance(BuildConfig.GITHUB_LANGS_URL).create(Langs::class.java)
@@ -95,28 +64,4 @@ class ReposRepository {
     }
 
 
-    fun getReposBylang(lang: String, callback: (Boolean) -> Unit) {
-        val api = RetrofitBuilder.getInstance(BuildConfig.GITHUB_API_URL)
-            .create(ServiceRepoByLanguage::class.java)
-        api.getByLang("Language:${lang}").clone().enqueue(object : Callback<ItemRepoList> {
-            override fun onResponse(call: Call<ItemRepoList>, response: Response<ItemRepoList>) {
-                response.body().let { resp ->
-                    if (resp != null) {
-                        SingletonRepoResponse.resp = resp.repolist
-                        callback(true)
-
-                    } else {
-                        println()
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<ItemRepoList>, t: Throwable) {
-
-                println(t.message)
-            }
-
-
-        })
-    }
 }
