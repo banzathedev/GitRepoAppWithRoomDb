@@ -2,7 +2,7 @@ package com.proway.gitrepoapp.model
 
 import com.google.gson.annotations.SerializedName
 
-data class RepoPullRequestResponse(
+data class GitHubPullRequestResponse(
     @SerializedName("url")
     val urlOfPr: String,
     @SerializedName("id")

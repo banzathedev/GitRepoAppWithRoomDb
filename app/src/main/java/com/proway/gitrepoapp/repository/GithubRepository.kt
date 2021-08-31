@@ -1,17 +1,28 @@
 package com.proway.gitrepoapp.repository
 
+import com.proway.gitrepoapp.BuildConfig
+import com.proway.gitrepoapp.database.dao.GithubDao
 import com.proway.gitrepoapp.model.GithubRepositoryResponse
+import com.proway.gitrepoapp.model.LanguagesResponse
+import com.proway.gitrepoapp.services.GithubServices
+import com.proway.gitrepoapp.services.Langs
+import com.proway.gitrepoapp.services.RetrofitBuilder
 import com.proway.gitrepoapp.services.RetrofitService
+import com.proway.gitrepoapp.singletons.SingletonLangs
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class GithubRepository() {
+class GithubRepository @Inject constructor(
+    private val githubDao: GithubDao,
+    private val githubServices: GithubServices,
+) {
 
     /**
      * Buscamos nossa Interface implementada do retrofit
      */
-    private val githubServices = RetrofitService.getGithubServices()
+
 
     /**
      * Vamos expor o serviço de fetchRepositories para as outras camadas.
@@ -44,6 +55,31 @@ class GithubRepository() {
             }
         })
 
+    }
+    fun getLangs(callback: (Boolean) -> Unit) {
+        RetrofitBuilder.getInstance(BuildConfig.GITHUB_LANGS_URL).create(Langs::class.java)
+            .getLangs().clone().enqueue(object : Callback<List<LanguagesResponse>> {
+                override fun onResponse(
+                    call: Call<List<LanguagesResponse>>,
+                    response: Response<List<LanguagesResponse>>
+                ) {
+                    response.body().let { resp ->
+                        if (resp != null) {
+                            SingletonLangs.resp = resp
+                            callback(true)
+                        } else {
+                            getLangs() {
+                                callback(false)
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<List<LanguagesResponse>>, t: Throwable) {
+                    println(t.message)
+                }
+
+            })
     }
 
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.proway.gitrepoapp.model.GithubModel
 import com.proway.gitrepoapp.repository.GithubRepository
-import com.proway.gitrepoapp.repository.ReposRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -13,7 +12,6 @@ import javax.inject.Inject
 class ListViewModel @Inject constructor(
     private val repository: GithubRepository
 ) : ViewModel() {
-    private val repo = ReposRepository()
 
     private val _repositories = MutableLiveData<List<GithubModel>>()
     val repositories: LiveData<List<GithubModel>> = _repositories
