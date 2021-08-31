@@ -22,7 +22,10 @@ import com.proway.gitrepoapp.model.RepositoriesResponse
 import com.proway.gitrepoapp.singletons.SingletonLangs
 import com.proway.gitrepoapp.singletons.SingletonRepoResponse
 import com.proway.gitrepoapp.utils.replaceView
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListFragment : Fragment(R.layout.list_fragment) {
 
     companion object {

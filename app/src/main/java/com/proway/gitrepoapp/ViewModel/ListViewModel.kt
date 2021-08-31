@@ -3,9 +3,16 @@ package com.proway.gitrepoapp.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.proway.gitrepoapp.repository.GithubRepository
 import com.proway.gitrepoapp.repository.ReposRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ListViewModel : ViewModel() {
+@HiltViewModel
+
+class ListViewModel @Inject constructor(
+    private val repository: GithubRepository
+) : ViewModel() {
     private val repo = ReposRepository()
 
     private val _changes = MutableLiveData<Boolean>()
@@ -19,9 +26,10 @@ class ListViewModel : ViewModel() {
             _changes.value = it
         }
     }
-    fun callRepoByLangs(lang: String){
 
-        repo.getReposBylang(lang){
+    fun callRepoByLangs(lang: String) {
+
+        repo.getReposBylang(lang) {
             _refresh.value = it
         }
     }

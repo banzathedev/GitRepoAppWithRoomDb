@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.proway.gitrepoapp.R
 import com.proway.gitrepoapp.ViewModel.MainViewModel
+import dagger.hilt.EntryPoint
+
 
 class MainFragment : Fragment() {
 
