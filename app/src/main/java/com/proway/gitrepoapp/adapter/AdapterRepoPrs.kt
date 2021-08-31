@@ -9,7 +9,7 @@ import com.proway.gitrepoapp.R
 import com.proway.gitrepoapp.databinding.ItemListBinding
 import com.proway.gitrepoapp.databinding.ItemListPrBinding
 import com.proway.gitrepoapp.model.RepoPullRequestResponse
-import com.proway.gitrepoapp.model.RepositoriesResponse
+
 
 class AdapterRepoPrs(val OnItemClick: (RepoPullRequestResponse) -> Unit) :
     RecyclerView.Adapter<RepositoriesPrsViewHolder>() {

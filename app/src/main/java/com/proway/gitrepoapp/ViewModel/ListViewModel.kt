@@ -10,7 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-
 class ListViewModel @Inject constructor(
     private val repository: GithubRepository
 ) : ViewModel() {
@@ -29,7 +28,6 @@ class ListViewModel @Inject constructor(
      * Sempre será chamado passando a página, caso não passe nenhuma irá passar por default 1
      */
     fun fetchRepositories(language: String, page: Int = 1) {
-        repo.getLangs()
         repository.fetchRepositories(language = language, page = page) { response, _ ->
             response?.let { resp ->
                 _repositories.value = resp.items

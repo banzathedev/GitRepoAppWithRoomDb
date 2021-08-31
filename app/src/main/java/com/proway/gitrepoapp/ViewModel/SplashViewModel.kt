@@ -12,10 +12,9 @@ class SplashViewModel : ViewModel() {
     var changes: LiveData<Boolean> = _changes
 
     fun LoadModels() {
-        repo.getAllReposAndLangs() {
+        repo.getLangs(){
             _changes.value = it
         }
-
 
     }
 

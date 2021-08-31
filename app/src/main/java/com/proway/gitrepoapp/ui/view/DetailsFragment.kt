@@ -5,21 +5,14 @@ import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.proway.gitrepoapp.R
 import com.proway.gitrepoapp.ViewModel.DetailsViewModel
-import com.proway.gitrepoapp.ViewModel.ListViewModel
 import com.proway.gitrepoapp.adapter.AdapterRepoPrs
-import com.proway.gitrepoapp.adapter.AdapterRepositorios
 import com.proway.gitrepoapp.databinding.DetailsFragmentBinding
-import com.proway.gitrepoapp.databinding.ListFragmentBinding
 import com.proway.gitrepoapp.singletons.SingletonRepoPrs
-import com.proway.gitrepoapp.singletons.SingletonRepoResponse
-import com.proway.gitrepoapp.utils.replaceView
 
 class DetailsFragment : Fragment(R.layout.details_fragment) {
 

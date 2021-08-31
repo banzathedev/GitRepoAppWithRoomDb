@@ -9,14 +9,13 @@ import com.proway.gitrepoapp.model.RepoPullRequestResponse
 import com.proway.gitrepoapp.services.*
 import com.proway.gitrepoapp.singletons.SingletonLangs
 import com.proway.gitrepoapp.singletons.SingletonRepoPrs
-import com.proway.gitrepoapp.singletons.SingletonRepoResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ReposRepository {
 
-    fun getLangs() {
+    fun getLangs(callback: (Boolean) -> Unit) {
         RetrofitBuilder.getInstance(BuildConfig.GITHUB_LANGS_URL).create(Langs::class.java)
             .getLangs().clone().enqueue(object : Callback<List<LanguagesResponse>> {
                 override fun onResponse(
@@ -26,14 +25,16 @@ class ReposRepository {
                     response.body().let { resp ->
                         if (resp != null) {
                             SingletonLangs.resp = resp
+                            callback(true)
                         } else {
-                            getLangs()
+                            getLangs(){
+                                callback(false)
+                            }
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<List<LanguagesResponse>>, t: Throwable) {
-                    getLangs()
                     println(t.message)
                 }
 
